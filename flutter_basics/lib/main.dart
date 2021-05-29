@@ -18,7 +18,7 @@ class _MyAppState extends State<MyApp> {
   var _totalScore = 0;
   final _questions = [
     {
-      'questionText': 'What\'s yore favourite colour?',
+      'questionText': 'What\'s your favourite colour?',
       'answers': [
         {'text': 'Black', 'score': 10},
         {'text': 'Red', 'score': 6},
