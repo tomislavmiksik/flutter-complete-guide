@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 class Result extends StatelessWidget {
   final int score;
-  Result(this.score);
+  final VoidCallback reset;
+
+  Result(this.score, this.reset);
+
   String get resultPhrase {
     var resultText = 'You did it!';
     if (score <= 100) {
@@ -22,11 +25,11 @@ class Result extends StatelessWidget {
       //child: Image.asset('assets/images/rick-astley-social.jpg'),
       child: Column(
         children: [
-          //Image.asset('assets/images/rick-astley-social.jpg'),
           Text(
             resultPhrase,
             style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
-          )
+          ),
+          TextButton(child: Text('Restart quiz'), onPressed: reset),
         ],
       ),
     );
