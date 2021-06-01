@@ -3,21 +3,45 @@
 // 2) Add a button which changes the text (to any other text of your choice)
 // 3) Split the app into three widgets: App, TextControl & Text
 import 'package:flutter/material.dart';
+import './textControl.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatefulWidget{
+class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-   return _MyAppState();
+    return _MyAppState();
   }
 }
 
-class _MyAppState extends State<MyApp>{
+class _MyAppState extends State<MyApp> {
+  String text = "before";
+
+  void _changeText() {
+    setState(() {
+      text = 'after';
+    });
+  }
+
+  void _revertBack() {
+    setState(() {
+      text = 'before';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
-    );
+        home: Scaffold(
+      appBar: AppBar(
+        title: Text('Flutter Assignment #1'),
+        centerTitle: true,
+      ),
+      body: Column(
+        children: [TextControl(text, _changeText, _revertBack)],
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+      ),
+    ));
   }
 }
