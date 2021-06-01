@@ -29,7 +29,12 @@ class Result extends StatelessWidget {
             resultPhrase,
             style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
           ),
-          TextButton(child: Text('Restart quiz'), onPressed: reset),
+          TextButton(
+            child: Text('Restart quiz'),
+            onPressed: reset,
+            style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all(Colors.blue)),
+          ),
         ],
       ),
     );
