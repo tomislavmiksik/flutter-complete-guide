@@ -44,15 +44,37 @@ class _MyAppState extends State<MyApp> {
               width: double.infinity,
               child: Card(
                 color: Colors.blue,
-                child: Container(child: Text('[Chart]')),
+                child: Container(child: Text('[Chart]'), alignment: Alignment.center,),
                 elevation: 5,
               ),
             ),
             Column(
-              children:
-                transactions.map((tx) {
-                  return Card(child: Text(tx.title));
-                }).toList(),
+              children: transactions.map((tx) {
+                return Card(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Container(
+                      margin:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                      decoration: BoxDecoration(
+                          color: Color(0xFFf19066),
+                          borderRadius: BorderRadius.circular(5)),
+                      padding: EdgeInsets.all(15),
+                      child: Text(
+                        tx.amount.toString(),
+                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                    ),
+                    Column(
+                      children: <Widget>[
+                        Text(tx.title),
+                        Text(tx.date.toString()),
+                      ],
+                    )
+                  ],
+                ));
+              }).toList(),
             ),
           ],
         ),
