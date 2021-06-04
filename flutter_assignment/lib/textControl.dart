@@ -13,13 +13,23 @@ class TextControl extends StatelessWidget {
         child: Column(
       children: [
         Text(text),
-        ElevatedButton(
-          child: Text('Change Text'),
-          onPressed: () => changeText(),
-        ),
-        OutlinedButton(onPressed: () => revert(), child: Text('Revert Back'))
+        Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                child: Text('Change Text'),
+                onPressed: () => changeText(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: OutlinedButton(
+                  onPressed: () => revert(), child: Text('Revert Back')),
+            )
+          ],
+        mainAxisAlignment: MainAxisAlignment.center,),
       ],
     ));
   }
-
 }
