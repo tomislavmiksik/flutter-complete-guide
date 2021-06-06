@@ -16,7 +16,8 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
+      height: 430,
+      child: ListView(
         children: _userTransactions.reversed.map((tx) {
           return Card(
               color: getColor(tx.transaction),

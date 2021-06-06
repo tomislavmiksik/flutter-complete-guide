@@ -32,7 +32,7 @@ class _State extends State<UserTransaction> {
           title: title,
           amount: amount,
           date: DateTime.now(),
-          transaction: true);
+          transaction: false);
       setState(() {
         _userTransactions.add(newTransaction);
       });

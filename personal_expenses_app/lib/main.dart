@@ -17,23 +17,25 @@ class MyApp extends StatelessWidget {
           title: Text('Expense manager'),
           centerTitle: true,
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Color(0xFF00b894),
-                child: Container(
-                  child: Text('[Chart]'),
-                  alignment: Alignment.center,
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                width: double.infinity,
+                child: Card(
+                  color: Color(0xFF00b894),
+                  child: Container(
+                    child: Text('[Chart]'),
+                    alignment: Alignment.center,
+                  ),
+                  elevation: 0,
                 ),
-                elevation: 0,
               ),
-            ),
-            UserTransaction(),
-          ],
+              UserTransaction(),
+            ],
+          ),
         ),
       ),
     );

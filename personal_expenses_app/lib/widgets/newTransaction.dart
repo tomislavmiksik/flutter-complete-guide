@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 class NewTransaction extends StatelessWidget {
   final Function _addNewTx;
-  NewTransaction(this._addNewTx);
 
+  NewTransaction(this._addNewTx);
 
   @override
   Widget build(BuildContext context) {
     final titleController = TextEditingController();
     final amountController = TextEditingController();
+    final String payment = '';
     return Card(
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -44,8 +45,13 @@ class NewTransaction extends StatelessWidget {
                   labelText: 'Amount',
                   labelStyle: TextStyle(color: Colors.white),
                   prefixText: '€',
-                  prefixStyle:
-                  TextStyle(color: Colors.white, fontSize: 16),
+                  prefixStyle: TextStyle(color: Colors.white, fontSize: 16),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.white,
+                    ),
+                  ),
+                  hoverColor: Colors.white,
                 ),
                 controller: amountController,
                 keyboardType: TextInputType.number,
@@ -53,13 +59,19 @@ class NewTransaction extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.all(10),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xff10ac84),
-                  ),
-                  child: Text('Add transaction',
-                      style: TextStyle(color: Colors.white)),
-                  onPressed: () => _addNewTx(titleController.text, double.parse(amountController.text)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Color(0xff10ac84),
+                      ),
+                      child: Text('Add transaction',
+                          style: TextStyle(color: Colors.white)),
+                      onPressed: () => _addNewTx(titleController.text,
+                          double.parse(amountController.text)),
+                    ),
+                  ],
                 ),
               )
             ],
