@@ -1,16 +1,36 @@
 import 'package:flutter/material.dart';
 
-class NewTransaction extends StatelessWidget {
+class NewTransaction extends StatefulWidget {
   final Function _addNewTx;
 
   NewTransaction(this._addNewTx);
 
   @override
+  _NewTransactionState createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+  final titleController = TextEditingController();
+
+  final amountController = TextEditingController();
+
+  void submitData() {
+    final enteredTitle = titleController.text;
+    final enteredAmount = double.parse(amountController.text);
+
+    if (enteredTitle.isEmpty || enteredAmount <= 0){
+      return;
+    }
+
+    widget._addNewTx(enteredTitle, enteredAmount);
+
+    Navigator.of(context).pop();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final titleController = TextEditingController();
-    final amountController = TextEditingController();
-    final String payment = '';
     return Card(
+        margin: EdgeInsets.all(0),
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
@@ -18,7 +38,7 @@ class NewTransaction extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color: Color(0xFF00b894),
+            color: Color(0xFF2d3436),
           ),
           //color: Color(0xFF00b894),
           padding: EdgeInsets.all(10),
@@ -39,6 +59,7 @@ class NewTransaction extends StatelessWidget {
                 ),
                 controller: titleController,
                 style: TextStyle(color: Colors.white),
+                onSubmitted: (_) => submitData(),
               ),
               TextField(
                 decoration: InputDecoration(
@@ -56,6 +77,7 @@ class NewTransaction extends StatelessWidget {
                 controller: amountController,
                 keyboardType: TextInputType.number,
                 style: TextStyle(color: Colors.white),
+                onSubmitted: (_) => submitData(),
               ),
               Container(
                 margin: EdgeInsets.all(10),
@@ -68,8 +90,7 @@ class NewTransaction extends StatelessWidget {
                       ),
                       child: Text('Add transaction',
                           style: TextStyle(color: Colors.white)),
-                      onPressed: () => _addNewTx(titleController.text,
-                          double.parse(amountController.text)),
+                      onPressed: submitData,
                     ),
                   ],
                 ),
