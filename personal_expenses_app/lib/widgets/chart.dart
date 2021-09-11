@@ -40,7 +40,7 @@ class Chart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 6,
-      color: Color(0xff10ac84),
+      color: Color(0xFF00b894),
       margin: EdgeInsets.all(20),
       child: Padding(
         padding: EdgeInsets.all(15),
@@ -49,8 +49,12 @@ class Chart extends StatelessWidget {
           children: groupedTxVal.map((e) {
             return Flexible(
               fit: FlexFit.tight,
-              child: ChartBar(e['day'], e['amount'],
-                  maxSpending == 0.0 ? 0.0 : (e['amount'] as double) / maxSpending),
+              child: ChartBar(
+                  e['day'],
+                  e['amount'],
+                  maxSpending == 0.0
+                      ? 0.0
+                      : (e['amount'] as double) / maxSpending),
             );
           }).toList(),
         ),

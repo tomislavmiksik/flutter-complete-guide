@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'OpenSans',
           appBarTheme: AppBarTheme(
               textTheme: ThemeData.light().textTheme.copyWith(
-                    title: TextStyle(
+                    subtitle1: TextStyle(
                       fontFamily: 'OpenSans',
                       fontSize: 20,
                     ),
@@ -38,18 +38,24 @@ class MyHomePage extends StatefulWidget {
 class _MyAppState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
     Transaction(
-        id: 't1',
+        id: 1,
         title: 'New phone',
         amount: 349.99,
         date: DateTime.now(),
-        transaction: false),
+        transactionType: false),
     Transaction(
-        id: 't2',
+        id: 2,
         title: 'Paycheck',
         amount: 1000.00,
         date: DateTime.now(),
-        transaction: true),
-    Transaction(id: 't3', title: 'Headphones', amount: 459.99, date: DateTime.now().subtract(Duration(days: 1)), transaction: true)
+        transactionType: true),
+    Transaction(
+      id: 3,
+      title: 'Headphones',
+      amount: 459.99,
+      date: DateTime.now().subtract(Duration(days: 1)),
+      transactionType: false,
+    )
   ];
 
   List<Transaction> get _recentTx {
@@ -59,13 +65,13 @@ class _MyAppState extends State<MyHomePage> {
         .toList();
   }
 
-  void _addNewTransaction(String title, double amount) {
+  void _addNewTransaction(String title, double amount, String txType) {
     final Transaction newTransaction = Transaction(
-        id: DateTime.now().toString(),
+        id: _userTransactions.length + 1,
         title: title,
         amount: amount,
         date: DateTime.now(),
-        transaction: false);
+        transactionType: txType == 'expense' ? false : true );
     setState(() {
       _userTransactions.add(newTransaction);
     });
@@ -119,7 +125,7 @@ class _MyAppState extends State<MyHomePage> {
               Container(
                 width: double.infinity,
                 child: Card(
-                  color: Color(0xFF00b894),
+                  color: Color(0xFF2d3436),
                   child: Container(
                     child: Chart(_recentTx),
                     alignment: Alignment.center,

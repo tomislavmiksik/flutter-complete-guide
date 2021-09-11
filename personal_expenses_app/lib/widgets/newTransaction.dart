@@ -10,19 +10,21 @@ class NewTransaction extends StatefulWidget {
 }
 
 class _NewTransactionState extends State<NewTransaction> {
+  String dropdownValue = 'expense';
   final titleController = TextEditingController();
-
+  final txController = TextEditingController();
   final amountController = TextEditingController();
 
   void submitData() {
     final enteredTitle = titleController.text;
     final enteredAmount = double.parse(amountController.text);
+    final txType = dropdownValue;
 
-    if (enteredTitle.isEmpty || enteredAmount <= 0){
+    if (enteredTitle.isEmpty || enteredAmount <= 0) {
       return;
     }
 
-    widget._addNewTx(enteredTitle, enteredAmount);
+    widget._addNewTx(enteredTitle, enteredAmount, txType);
 
     Navigator.of(context).pop();
   }
@@ -78,6 +80,31 @@ class _NewTransactionState extends State<NewTransaction> {
                 keyboardType: TextInputType.number,
                 style: TextStyle(color: Colors.white),
                 onSubmitted: (_) => submitData(),
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    DropdownButton<String>(
+                      value: dropdownValue,
+                      dropdownColor: Color(0xFF2d3436),
+                      style: const TextStyle(color: Colors.white),
+                      onChanged: (String newValue) {
+                        setState(() {
+                          dropdownValue = newValue;
+                        });
+                      },
+                      items: <String>['expense', 'income']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
               ),
               Container(
                 margin: EdgeInsets.all(10),

@@ -12,7 +12,10 @@ class ChartBar extends StatelessWidget {
     return Column(
       children: [
         FittedBox(
-          child: Text('€${moneySpent.toStringAsFixed(0)}', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+          child: Text(
+            '€${moneySpent.toStringAsFixed(0)}',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
         ),
         SizedBox(
           height: 4,
@@ -23,28 +26,38 @@ class ChartBar extends StatelessWidget {
           child: Stack(
             children: [
               Container(
+                height: 60,
+                width: 10,
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black38, width: 1),
-                  color: Color(0xFF95a5a6),
+                  border: Border.all(color: Colors.black, width: 1),
+                  color: Color(0xffffffff),
+                  //borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)),
                   borderRadius: BorderRadius.circular(20),
                 ),
-              ),
-              FractionallySizedBox(
-                heightFactor: spendingPctOfTotal,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xFFe67e22),
-                    borderRadius: BorderRadius.circular(20),
+                child: FractionallySizedBox(
+                  heightFactor: spendingPctOfTotal,
+                  alignment: FractionalOffset.bottomCenter,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xFFe74c3c),
+                      borderRadius: BorderRadius.circular(20),
+                      //borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+                      //border: Border.all(color: Colors.black38, width: 1),
+                    ),
                   ),
                 ),
               ),
+
             ],
           ),
         ),
         SizedBox(
           height: 4,
         ),
-        Text(label, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+        Text(
+          label,
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
       ],
     );
   }

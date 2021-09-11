@@ -4,7 +4,7 @@ import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   Color getColor(bool transaction) {
-    if (transaction == false) {
+    if (!transaction) {
       return Color(0xFFe74c3c);
     } else {
       return Color(0xFF00b894);
@@ -46,12 +46,27 @@ class TransactionList extends StatelessWidget {
           : ListView.builder(
               itemBuilder: (ctx, index) {
                 return Card(
-                    color: getColor(
-                        _userTransactions[lng - index - 1].transaction),
+                    /*color: getColor(
+                        _userTransactions[lng - index - 1].transaction),*/
+                    color: Color(0xFF2d3436),
+                    shape: RoundedRectangleBorder(
+                      //borderRadius: BorderRadius.circular(20),
+                      side: BorderSide(
+                        color: Colors.grey.withOpacity(0.2),
+                      ),
+                    ),
                     elevation: 0,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.all(10),
+                          width: 8,
+                          height: 50,
+                          color: getColor(
+                              _userTransactions[lng - index - 1].transactionType),
+                          child: Text(" "),
+                        ),
                         Container(
                           margin: EdgeInsets.symmetric(
                               vertical: 10, horizontal: 15),
