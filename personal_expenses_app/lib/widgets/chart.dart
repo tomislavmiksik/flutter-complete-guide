@@ -17,7 +17,7 @@ class Chart extends StatelessWidget {
       for (int i = 0; i < transactions.length; i++) {
         if (transactions[i].date.day == weekDay.day &&
             transactions[i].date.month == weekDay.month &&
-            transactions[i].date.year == weekDay.year) {
+            transactions[i].date.year == weekDay.year && transactions[i].transactionType == false) {
           sum += transactions[i].amount;
         }
         ;
@@ -27,7 +27,7 @@ class Chart extends StatelessWidget {
         'day': DateFormat.E().format(weekDay).substring(0, 1),
         'amount': sum
       };
-    });
+    }).reversed.toList();
   }
 
   double get maxSpending {

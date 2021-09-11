@@ -12,8 +12,8 @@ class TransactionList extends StatelessWidget {
   }
 
   final List<Transaction> _userTransactions;
-
-  TransactionList(this._userTransactions);
+  final Function deleteTx;
+  TransactionList(this._userTransactions, this.deleteTx);
 
   @override
   Widget build(BuildContext context) {
@@ -46,11 +46,70 @@ class TransactionList extends StatelessWidget {
           : ListView.builder(
               itemBuilder: (ctx, index) {
                 return Card(
+                  elevation: 5,
+                  color: Color(0xFF2d3436),
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  child: ListTile(
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete, color: Color(0xFFe74c3c),),
+                      onPressed: () => deleteTx(lng - index - 1),
+                    ),
+                    tileColor: Colors.black38,
+                    contentPadding: EdgeInsets.all(10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      side: BorderSide(
+                        color: Colors.black54,
+                      ),
+                    ),
+
+                    //amount
+                    leading: Container(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: FittedBox(
+                          child: Text(
+                            _userTransactions[lng - index - 1].transactionType
+                                ? '€${_userTransactions[lng - index - 1].amount.toStringAsFixed(2)}'
+                                : '-€${_userTransactions[lng - index - 1].amount.toStringAsFixed(2)}',
+                            style: TextStyle(
+                              color: getColor(_userTransactions[lng - index - 1]
+                                  .transactionType),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      _userTransactions[lng - index - 1].title,
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    subtitle: Text(
+                      DateFormat.yMMMd()
+                          .format(_userTransactions[lng - index - 1].date),
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                );
+              },
+              itemCount: _userTransactions.length,
+            ),
+    );
+  }
+}
+/*Card(
                     /*color: getColor(
                         _userTransactions[lng - index - 1].transaction),*/
-                    color: Color(0xFF2d3436),
+                    color: Color(0xff353d3f),
                     shape: RoundedRectangleBorder(
-                      //borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(10),
                       side: BorderSide(
                         color: Colors.grey.withOpacity(0.2),
                       ),
@@ -59,14 +118,16 @@ class TransactionList extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
+                        //indicator of expense/income
                         Container(
                           margin: EdgeInsets.all(10),
                           width: 8,
                           height: 50,
-                          color: getColor(
-                              _userTransactions[lng - index - 1].transactionType),
+                          color: getColor(_userTransactions[lng - index - 1]
+                              .transactionType),
                           child: Text(" "),
                         ),
+                        //amount of transaction
                         Container(
                           margin: EdgeInsets.symmetric(
                               vertical: 10, horizontal: 15),
@@ -77,13 +138,16 @@ class TransactionList extends StatelessWidget {
                           ),
                           padding: EdgeInsets.all(15),
                           child: Text(
-                            '€${_userTransactions[lng - index - 1].amount.toStringAsFixed(2)}',
+                            _userTransactions[lng - index - 1].transactionType
+                                ? '€${_userTransactions[lng - index - 1].amount.toStringAsFixed(2)}'
+                                : '-€${_userTransactions[lng - index - 1].amount.toStringAsFixed(2)}',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                                 fontSize: 20),
                           ),
                         ),
+                        //name of transaction
                         Container(
                           margin: EdgeInsets.symmetric(
                               vertical: 10, horizontal: 15),
@@ -105,10 +169,4 @@ class TransactionList extends StatelessWidget {
                           ),
                         )
                       ],
-                    ));
-              },
-              itemCount: _userTransactions.length,
-            ),
-    );
-  }
-}
+                    ));*/

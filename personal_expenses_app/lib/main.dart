@@ -16,16 +16,18 @@ class MyApp extends StatelessWidget {
       title: 'Expense manager',
       home: MyHomePage(),
       theme: ThemeData(
-          primarySwatch: Colors.teal,
-          accentColor: Colors.amber,
-          fontFamily: 'OpenSans',
-          appBarTheme: AppBarTheme(
-              textTheme: ThemeData.light().textTheme.copyWith(
-                    subtitle1: TextStyle(
-                      fontFamily: 'OpenSans',
-                      fontSize: 20,
-                    ),
-                  ))),
+        primarySwatch: Colors.teal,
+        accentColor: Color(0xFF00b894),
+        fontFamily: 'OpenSans',
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                subtitle1: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontSize: 20,
+                ),
+              ),
+        ),
+      ),
     );
   }
 }
@@ -38,19 +40,21 @@ class MyHomePage extends StatefulWidget {
 class _MyAppState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
     Transaction(
-        id: 1,
-        title: 'New phone',
-        amount: 349.99,
-        date: DateTime.now(),
-        transactionType: false),
+      id: 0,
+      title: 'New phone',
+      amount: 349.99,
+      date: DateTime.now(),
+      transactionType: false,
+    ),
     Transaction(
-        id: 2,
-        title: 'Paycheck',
-        amount: 1000.00,
-        date: DateTime.now(),
-        transactionType: true),
+      id: 1,
+      title: 'Paycheck',
+      amount: 1000.00,
+      date: DateTime.now(),
+      transactionType: true,
+    ),
     Transaction(
-      id: 3,
+      id: 2,
       title: 'Headphones',
       amount: 459.99,
       date: DateTime.now().subtract(Duration(days: 1)),
@@ -65,15 +69,23 @@ class _MyAppState extends State<MyHomePage> {
         .toList();
   }
 
-  void _addNewTransaction(String title, double amount, String txType) {
+  void _addNewTransaction(
+      String title, double amount, String txType, DateTime txDate) {
     final Transaction newTransaction = Transaction(
         id: _userTransactions.length + 1,
         title: title,
         amount: amount,
-        date: DateTime.now(),
-        transactionType: txType == 'expense' ? false : true );
+        date: txDate,
+        transactionType: txType == 'expense' ? false : true);
+    print(_userTransactions.length.toString());
     setState(() {
       _userTransactions.add(newTransaction);
+    });
+  }
+
+  void _deleteTransaction(int index) {
+    setState(() {
+      _userTransactions.removeAt(index);
     });
   }
 
@@ -133,7 +145,7 @@ class _MyAppState extends State<MyHomePage> {
                   elevation: 0,
                 ),
               ),
-              TransactionList(_userTransactions),
+              TransactionList(_userTransactions, _deleteTransaction),
             ],
           ),
         ),

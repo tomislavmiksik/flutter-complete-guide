@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function _addNewTx;
@@ -11,20 +12,39 @@ class NewTransaction extends StatefulWidget {
 
 class _NewTransactionState extends State<NewTransaction> {
   String dropdownValue = 'expense';
-  final titleController = TextEditingController();
+  final _titleController = TextEditingController();
   final txController = TextEditingController();
-  final amountController = TextEditingController();
+  final _amountController = TextEditingController();
+  DateTime _selectedDate;
 
-  void submitData() {
-    final enteredTitle = titleController.text;
-    final enteredAmount = double.parse(amountController.text);
+  void _presentDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(),
+    ).then((pickedDate) {
+      if(pickedDate == null){
+        return;
+      }
+      else{
+        setState((){
+            _selectedDate = pickedDate;
+        });
+      }
+    });
+  }
+
+  void _submitData() {
+    final enteredTitle = _titleController.text;
+    final enteredAmount = double.parse(_amountController.text);
     final txType = dropdownValue;
-
-    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+    final date = _selectedDate;
+    if (enteredTitle.isEmpty || enteredAmount <= 0 || _selectedDate == null) {
       return;
     }
 
-    widget._addNewTx(enteredTitle, enteredAmount, txType);
+    widget._addNewTx(enteredTitle, enteredAmount, txType, _selectedDate);
 
     Navigator.of(context).pop();
   }
@@ -59,9 +79,9 @@ class _NewTransactionState extends State<NewTransaction> {
                   ),
                   hoverColor: Colors.white,
                 ),
-                controller: titleController,
+                controller: _titleController,
                 style: TextStyle(color: Colors.white),
-                onSubmitted: (_) => submitData(),
+                onSubmitted: (_) => _submitData(),
               ),
               TextField(
                 decoration: InputDecoration(
@@ -76,15 +96,16 @@ class _NewTransactionState extends State<NewTransaction> {
                   ),
                   hoverColor: Colors.white,
                 ),
-                controller: amountController,
+                controller: _amountController,
                 keyboardType: TextInputType.number,
                 style: TextStyle(color: Colors.white),
-                onSubmitted: (_) => submitData(),
+                onSubmitted: (_) => _submitData(),
               ),
               Container(
                 margin: EdgeInsets.all(10),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     DropdownButton<String>(
                       value: dropdownValue,
@@ -103,6 +124,16 @@ class _NewTransactionState extends State<NewTransaction> {
                         );
                       }).toList(),
                     ),
+                    Text(
+                      _selectedDate == null ? 'No Date Chosen' : DateFormat.yMMMd().format(_selectedDate),
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    FloatingActionButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Icon(Icons.calendar_today),
+                      onPressed: _presentDatePicker,
+                    )
                   ],
                 ),
               ),
@@ -117,7 +148,7 @@ class _NewTransactionState extends State<NewTransaction> {
                       ),
                       child: Text('Add transaction',
                           style: TextStyle(color: Colors.white)),
-                      onPressed: submitData,
+                      onPressed: _submitData,
                     ),
                   ],
                 ),
