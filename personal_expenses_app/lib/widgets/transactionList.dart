@@ -19,7 +19,7 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     int lng = _userTransactions.length;
     return Container(
-      height: 430,
+      height: 1000,
       child: _userTransactions.isEmpty
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.center,
