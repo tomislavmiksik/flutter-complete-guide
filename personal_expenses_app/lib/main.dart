@@ -13,7 +13,7 @@ void main() {
   //   DeviceOrientation.portraitDown,
   // ]);
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    systemNavigationBarColor: Color(0xFF00b894),
+    systemNavigationBarColor: Color(0xFF2d3436),
     systemStatusBarContrastEnforced: true,
     statusBarColor: Color(0xFF00b894),
   ));
@@ -70,6 +70,27 @@ class _MyAppState extends State<MyHomePage> {
       amount: 459.99,
       date: DateTime.now().subtract(Duration(days: 1)),
       transactionType: false,
+    ),
+    Transaction(
+      id: 3,
+      title: 'Gas',
+      amount: 50,
+      date: DateTime.now().subtract(Duration(days: 3)),
+      transactionType: false,
+    ),
+    Transaction(
+      id: 4,
+      title: 'Sale',
+      amount: 320,
+      date: DateTime.now().subtract(Duration(days: 1)),
+      transactionType: true,
+    ),
+    Transaction(
+      id: 5,
+      title: 'Groceries',
+      amount: 15.45,
+      date: DateTime.now(),
+      transactionType: false,
     )
   ];
 
@@ -104,6 +125,7 @@ class _MyAppState extends State<MyHomePage> {
 
   void _startNewTx(BuildContext ctx) {
     showModalBottomSheet(
+      isScrollControlled: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(12),
@@ -149,7 +171,6 @@ class _MyAppState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              if(MediaQuery.of(context).orientation != Orientation.landscape)
               _chartToggle
                   ? Container(
                       width: double.infinity,

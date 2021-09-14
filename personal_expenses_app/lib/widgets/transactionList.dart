@@ -62,13 +62,6 @@ class TransactionList extends StatelessWidget {
                             _userTransactions[lng - index - 1].transactionType),
                       )),
                   child: ListTile(
-                    trailing: IconButton(
-                      icon: Icon(
-                        Icons.delete,
-                        color: Color(0xFFe74c3c),
-                      ),
-                      onPressed: () => deleteTx(lng - index - 1),
-                    ),
                     tileColor: Colors.transparent,
                     contentPadding: EdgeInsets.all(10),
                     shape: RoundedRectangleBorder(
@@ -77,7 +70,32 @@ class TransactionList extends StatelessWidget {
                         style: BorderStyle.none,
                       ),
                     ),
-
+                    trailing: MediaQuery.of(context).size.width > 460
+                        ? ElevatedButton.icon(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                Color(0xff202323),
+                              ),
+                            ),
+                            onPressed: () => deleteTx(lng - index - 1),
+                            icon: Icon(
+                              Icons.delete,
+                              color: Color(0xFFe74c3c),
+                            ),
+                            label: Text(
+                              "Delete",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        : IconButton(
+                            icon: Icon(
+                              Icons.delete,
+                              color: Color(0xFFe74c3c),
+                            ),
+                            onPressed: () => deleteTx(lng - index - 1),
+                          ),
                     //amount
                     leading: Container(
                       child: Padding(
