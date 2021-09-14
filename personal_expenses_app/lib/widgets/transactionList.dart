@@ -13,56 +13,68 @@ class TransactionList extends StatelessWidget {
 
   final List<Transaction> _userTransactions;
   final Function deleteTx;
+
   TransactionList(this._userTransactions, this.deleteTx);
 
   @override
   Widget build(BuildContext context) {
     int lng = _userTransactions.length;
     return Container(
-      height: 1000,
+      //height: MediaQuery.of(context).size.height * 0.6,
       child: _userTransactions.isEmpty
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                  Text(
-                    'Nothing to see here',
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 60,
-                  ),
-                  Container(
-                    height: 200,
-                    child: Image.asset(
-                      'assets/images/waiting.png',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ])
+          ? LayoutBuilder(
+              builder: (ctx, constraints) {
+                return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Nothing to see here',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 60,
+                      ),
+                      Container(
+                        height: constraints.maxHeight * 0.6,
+                        child: Image.asset(
+                          'assets/images/waiting.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ]);
+              },
+            )
           : ListView.builder(
               itemBuilder: (ctx, index) {
                 return Card(
                   elevation: 5,
                   color: Color(0xFF2d3436),
+                  shadowColor: Colors.transparent,
                   margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      side: BorderSide(
+                        color: getColor(
+                            _userTransactions[lng - index - 1].transactionType),
+                      )),
                   child: ListTile(
                     trailing: IconButton(
-                      icon: Icon(Icons.delete, color: Color(0xFFe74c3c),),
+                      icon: Icon(
+                        Icons.delete,
+                        color: Color(0xFFe74c3c),
+                      ),
                       onPressed: () => deleteTx(lng - index - 1),
                     ),
-                    tileColor: Colors.black38,
+                    tileColor: Colors.transparent,
                     contentPadding: EdgeInsets.all(10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       side: BorderSide(
-                        color: Colors.black54,
+                        style: BorderStyle.none,
                       ),
                     ),
 

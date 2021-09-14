@@ -4,8 +4,19 @@ import './widgets/chart.dart';
 import './widgets/newTransaction.dart';
 import './widgets/transactionList.dart';
 import './models/transaction.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.portraitUp,
+  //   DeviceOrientation.portraitDown,
+  // ]);
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Color(0xFF00b894),
+    systemStatusBarContrastEnforced: true,
+    statusBarColor: Color(0xFF00b894),
+  ));
   runApp(MyApp());
 }
 
@@ -62,6 +73,8 @@ class _MyAppState extends State<MyHomePage> {
     )
   ];
 
+  bool _chartToggle = true;
+
   List<Transaction> get _recentTx {
     return _userTransactions
         .where((element) =>
@@ -112,40 +125,77 @@ class _MyAppState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     //String amountInput;
+    final appBar = AppBar(
+      //systemOverlayStyle: SystemUiOverlayStyle(systemNavigationBarColor: Color(0xFF00b894)),
+      backgroundColor: Color(0xFF00b894),
+      title: Text('Expense manager'),
+      centerTitle: true,
+      actions: [
+        IconButton(
+            onPressed: () => _startNewTx(context),
+            icon: Icon(
+              Icons.add,
+              color: Colors.white,
+              size: 30,
+            )),
+      ],
+    );
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Color(0xFF2d3436),
-        appBar: AppBar(
-          backgroundColor: Color(0xFF00b894),
-          title: Text('Expense manager'),
-          centerTitle: true,
-          actions: [
-            IconButton(
-                onPressed: () => _startNewTx(context),
-                icon: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 30,
-                )),
-          ],
-        ),
+        appBar: appBar,
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Container(
-                width: double.infinity,
-                child: Card(
-                  color: Color(0xFF2d3436),
-                  child: Container(
-                    child: Chart(_recentTx),
-                    alignment: Alignment.center,
-                  ),
-                  elevation: 0,
+              if(MediaQuery.of(context).orientation != Orientation.landscape)
+              _chartToggle
+                  ? Container(
+                      width: double.infinity,
+                      child: Card(
+                        color: Color(0xFF2d3436),
+                        child: Container(
+                          child: Container(
+                            height: MediaQuery.of(context).orientation == Orientation.landscape ? (MediaQuery.of(context).size.height -
+                                    appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.60
+                                : (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.22,
+                            child: Chart(_recentTx),
+                          ),
+                          alignment: Alignment.center,
+                        ),
+                        elevation: 0,
+                      ),
+                    )
+                  : Container(),
+              if(MediaQuery.of(context).orientation == Orientation.landscape) Container(
+                height: (MediaQuery.of(context).size.height - appBar.preferredSize.height - MediaQuery.of(context).padding.top) * 0.05,
+                child:  Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Text(
+                      "Chart",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Switch(
+                      value: _chartToggle,
+                      onChanged: (val) {
+                        setState(() {
+                          _chartToggle = val;
+                        });
+                      },
+                      activeColor: Color(0xFF00b894),
+                    ),
+                  ],
                 ),
               ),
-                TransactionList(_userTransactions, _deleteTransaction),
+              Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.70,
+                child: TransactionList(_userTransactions, _deleteTransaction),
+              ),
             ],
           ),
         ),

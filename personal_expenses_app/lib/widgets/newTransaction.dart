@@ -24,12 +24,11 @@ class _NewTransactionState extends State<NewTransaction> {
       firstDate: DateTime(2000),
       lastDate: DateTime.now(),
     ).then((pickedDate) {
-      if(pickedDate == null){
+      if (pickedDate == null) {
         return;
-      }
-      else{
-        setState((){
-            _selectedDate = pickedDate;
+      } else {
+        setState(() {
+          _selectedDate = pickedDate;
         });
       }
     });
@@ -105,7 +104,7 @@ class _NewTransactionState extends State<NewTransaction> {
                 margin: EdgeInsets.all(10),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     DropdownButton<String>(
                       value: dropdownValue,
@@ -124,35 +123,48 @@ class _NewTransactionState extends State<NewTransaction> {
                         );
                       }).toList(),
                     ),
-                    Text(
-                      _selectedDate == null ? 'No Date Chosen' : DateFormat.yMMMd().format(_selectedDate),
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    FloatingActionButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Icon(Icons.calendar_today),
-                      onPressed: _presentDatePicker,
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          OutlinedButton(
+                            child: Text(
+                              _selectedDate == null
+                                  ? 'No Date Chosen'
+                                  : DateFormat.yMMMd().format(_selectedDate),
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            style: ButtonStyle(
+                                backgroundColor: _selectedDate == null ? MaterialStateProperty.all<Color>(Color(0xFFe74c3c)) : MaterialStateProperty.all<Color>(Color(0xff10ac84)),
+                            ),
+                            onPressed: _presentDatePicker,
+                          ),
+                          // FloatingActionButton(
+                          //   mini: true,
+                          //   shape: RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(10)),
+                          //   child: Icon(Icons.calendar_today),
+                          //   onPressed: _presentDatePicker,
+                          // )
+                        ]),
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Color(0xff10ac84),
+                            ),
+                            child: Text('Add transaction',
+                                style: TextStyle(color: Colors.white)),
+                            onPressed: _submitData,
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 ),
               ),
-              Container(
-                margin: EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Color(0xff10ac84),
-                      ),
-                      child: Text('Add transaction',
-                          style: TextStyle(color: Colors.white)),
-                      onPressed: _submitData,
-                    ),
-                  ],
-                ),
-              )
             ],
           ),
         ));
